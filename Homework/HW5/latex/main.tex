@@ -1,0 +1,161 @@
+\documentclass{article}
+
+\usepackage{preamble}
+
+\title{Homework 5}
+\author{Brandon Henke\\\textit{PHY841}\\\textit{Andreas von Manteuffel}}
+\date{\today}
+
+\setcounter{section}{5}
+
+\begin{document}
+
+\maketitle
+\begin{multicols*}{2}
+
+	\subsection{A Simple Poisson Equation}
+	\subsubsection*{a}
+	The Laplace operator, in cartesian coordinates, is given by
+	\[
+		\laplacian{} = \pdv[2]{x}+\pdv[2]{y}+\pdv[2]{z}.
+	\]
+	One can use a change of variables to find how the Laplace operator acts on a function that only depends on the distance from the origin, $f(r)$.
+	The distance from the origin is $r = \sqrt{x^2+y^2+z^2}$.
+	Taking the second derivative with respect to each of the cartesian coordinates is the same process:
+	\begin{align*}
+		\pdv[2]{x}
+		&= \pdv{x}(\pdv{r}{x}\pdv{r}),\\
+		&= \pdv[2]{r}{x}\pdv{r}+\left(\pdv{r}{x}\right)^2\pdv[2]{r},\\
+		&= \left(\frac{1}{r}-\frac{x^2}{r^3}\right)\pdv{r} + \frac{x^2}{r^2}\pdv[2]{r},\\
+		&= \frac{1}{r} \left(\left(1-\frac{x^2}{r^2}\right)\pdv{r}+\frac{x^2}{r}\pdv[2]{r}\right)
+	\end{align*}
+	Since the processes is the same for each variable,
+	\begin{align*}
+		\laplacian
+		&= \frac{1}{r} \left(\left(3-\frac{r^2}{r^2}\right)\pdv{r}+\frac{r^2}{r}\pdv[2]{r}\right),\\
+		&= \frac{1}{r} \left(2\pdv{r}+r\pdv[2]{r}\right),\\
+		\laplacian f(r)
+		&= \frac{1}{r}\pdv[2]{r}(rf(r)).
+	\end{align*}
+
+	\subsubsection*{b}
+	The possion equation for this charge distribution is given by
+	\begin{equation}
+		\laplacian \phi(\vb{r}) = \frac{\rho_0}{\epsilon_0} e^{-\mu r}.
+		\label{eq: poisson 1}
+	\end{equation}
+	Since the charge distribution is radially symmetric, the potential must also be radially symmetric, since rotating the system in any way doesn't change the problem.
+	From part a, \ref{eq: poisson 1} becomes
+	\[
+		\frac{1}{r}\pdv[2]{r}(r\phi(r)) = \frac{\rho_0}{\epsilon_0} e^{-\mu r}.
+	\]
+	One can easily find the solution to this through integration\footnote{These integrals were done with the help of Mathematica.}:
+	\begin{align*}
+		\pdv{r}(r\phi(r)) &= \frac{\rho_0}{\epsilon_0} \int r e^{-\mu r}\dd{r},\\
+		&= c_0-\frac{e^{-\mu r} (\mu r+1)}{\mu^2},\\
+		r\phi(r) &= \int c_0-\frac{e^{-\mu r} (\mu r+1)}{\mu^2} \dd{r},\\
+		&= c_1 + c_0 r + \frac{\rho_0 e^{-\mu r} \left(\frac{2}{\mu}+r\right)}{\mu^2 \epsilon_0},\\
+		\phi(r) &= c_0 + \frac{c_1}{r} + \frac{\rho_0 e^{-\mu r} \left(\frac{2}{\mu}+r\right)}{\mu^2 \epsilon_0 r}.
+	\end{align*}
+
+	\subsubsection*{c}
+	Since there is no charge density at infinity, the potential can be set to zero.
+	Hence $c_0 = 0$V.
+	Something weird is going on.
+	Using the integral form of Gauss' law gives an electric field and potential that do not blow up at $r=0$m, yet solving Poisson's equation gave a solution that does blow up at $r=0$m.
+
+	\subsection{Potential for a Box}
+	Being that there is no charge in the box, Gauss' law becomes
+	\begin{equation}
+		\laplacian{\phi} = 0.
+		\label{eq: laplace 2}
+	\end{equation}
+	The boundary conditions are
+	\begin{align}
+		\phi(0,y,z) = \phi(a,y,z) &= 0,
+		\label{eq: boundary 2.1}\\
+		\phi(x,0,z) = \phi(x,b,z) &= 0,
+		\label{eq: boundary 2.2}\\
+		\phi(x,y,0) &= 0,
+		\label{eq: boundary 2.3}\\
+		\phi(x,y,c) &= c_0 x,
+		\label{eq: boundary 2.4}
+	\end{align}
+	where $c_0$ is some constant.
+
+	\subsubsection*{a}
+	Make the assumption that the solution to \ref{eq: laplace 2} is seperable:
+	\[
+		\phi(x,y,z) = X(x)Y(y)Z(z).
+	\]
+	Then \ref{eq: laplace 2} becomes
+	\[
+		\frac{X''}{X}+\frac{Y''}{Y}+\frac{Z''}{Z} = 0.
+	\]
+	For this to be the case, each term must be a constant, such that their sum vanishes:
+	\begin{gather*}
+		\frac{X''}{X} = -k_x^2,\\
+		\frac{Y''}{Y} = -k_y^2,\\
+		\frac{Z''}{Z} = k_z^2,\\
+		k_z^2 = k_x^2 + k_y^2.
+	\end{gather*}
+	These ODEs have the following solutions:
+	\begin{align*}
+		X(x) &= X_0 \sin(k_x x) + X_1 \cos(k_x x),\\
+		Y(y) &= Y_0 \sin(k_y y) + Y_1 \cos(k_y y),\\
+		Z(z) &= Z_0 \sinh(k_z z) + Z_1 \cosh(k_z z).
+	\end{align*}
+
+	\subsubsection*{b}
+	Using \ref{eq: boundary 2.1}-\ref{eq: boundary 2.3},
+	\begin{gather*}
+		X_1 = 0, \; k_x = \frac{m\pi}{a},\\
+		Y_1 = 0, \; k_y = \frac{n\pi}{b},\\
+		Z_1 = 0.
+	\end{gather*}
+	Thus,
+	\begin{align*}
+		X(x) &= X_0 \sin(\frac{m\pi}{a} x),\\
+		Y(y) &= Y_0 \sin(\frac{n\pi}{b} y),\\
+		Z(z) &= Z_0 \sinh(k_{mn}\pi z),
+	\end{align*}
+	where
+	\[
+		k_{mn} = \sqrt{\frac{m^2}{a^2}+\frac{n^2}{b^2}}.
+	\]
+	Using \ref{eq: boundary 2.4} gives
+	\[
+		V(x) = \sum_{m,n}^\infty A_{mn} \sin(\frac{m\pi}{a} x)\sin(\frac{n\pi}{b}y)
+		\sinh(k_{mn}c\pi).
+	\]
+	In order to find the coefficients, $A_{mn}$, one can exploit the inner product
+	\[
+		\int_0^\tau \sin(\frac{m\pi}{\tau}s)\sin(\frac{n\pi}{\tau}s)\dd{s} = \frac{\tau}{2}\delta_{mn}.
+	\]
+	Multiplying both sides by
+	\[
+		\sin(\frac{m\pi}{a} x)\sin(\frac{n\pi}{b}y),
+	\]
+	and using the identity
+	\[
+		\int_0^b \sin[2](\frac{n\pi}{b}\eta)\dd{\eta} = \frac{b}{2},
+	\]
+	one can integrate over $x$ and $y$ to get\footnote{This integral was done with the assistance of Mathematica.}
+	\begin{align*}
+		A_{mn}
+		&= \frac{b c_0}{2\sinh(k_{mn}c\pi)}\int_0^a \xi\sin[2](\frac{m\pi}{a}\xi)\dd{\xi},\\
+		&= \frac{a^2 b c_0}{8\sinh(k_{mn}c\pi)}.
+	\end{align*}
+	This gives the final solution to be
+	\[
+		\phi(x,y,z) = \sum_{m,n}^\infty A_{mn} \sin(\frac{m\pi}{a} x)\sin(\frac{n\pi}{b}y)
+		\sinh(k_{mn}z\pi),
+	\]
+	where
+	\[
+		A_{mn} = \frac{a^2 b c_0}{8\sinh(k_{mn}c\pi)} \qq{and} k_{mn} = \sqrt{\frac{m^2}{a^2}+\frac{n^2}{b^2}}.
+	\]
+
+
+\end{multicols*}
+\end{document}
