@@ -1,0 +1,70 @@
+\documentclass{article}
+
+\usepackage{preamble}
+
+\title{Homework 10}
+\author{Brandon Henke\\\textit{Andreas von Manteuffel}\\\textit{PHY841}}
+\date{April 2, 2021}
+
+\setcounter{section}{10}
+
+\begin{document}
+
+\maketitle
+\begin{multicols*}{2}
+
+	\subsection{A Current Loop}
+	From Jackson, the magnetic moment is given by
+	\[
+		\vb{m} = \frac{I}{2} \oint \vb{x} \cross \dd{\vb{l}}.
+	\]
+	The integral can be split into eight pieces, one for each side.
+	Start with two sides that are parallel to the $\vu{z}$-axis:
+	\begin{align*}
+		\vb{m}_1 &= -\frac{I}{2}\int_{-b}^{b} (x\vu{x}+y\vu{y}+z\vu{z})\cross \dd{z}\vu{z},\\
+		&+ \frac{I}{2}\int_{-b}^{b} (-x\vu{x}+y\vu{y}+z\vu{z})\cross \dd{z}\vu{z},\\
+		&= I \vu{y} \int_{-b}^b x \dd{z},\\
+		&= 2I b^2 \vu{y}.\qquad (x=b)
+	\end{align*}
+	Due to symmetry,
+	\[
+		\vb{m} = 4Ib^2\vu{y}.
+	\]
+	\subsection{Rotating Square Loop}
+	On average, the charge disrobution is a charged hollow cylinder of radius $a$ and height $a$.
+	The outside of the cylinder has a surface charge density of $\sigma_1=\lambda/2\pi a$.
+	The top and botton have a surface charge density of $ \sigma_2(r)=\lambda/2\pi r $.
+	Thus, the charge density is given by
+	\begin{align*}
+		j(\vb{r}) &= \omega r \sigma_1 \delta(r-a)\Theta(a/2-\abs{z-a/2})\\
+		&+\omega r\sigma_2(r)(\delta(z)+\delta(z-a/2))\Theta(a-r).
+		\stepcounter{equation}
+		\tag{\theequation}
+		\label{eq: 10.2 current density}
+	\end{align*}
+
+	From these surface charge densities, one just needs to find the magnetic moment of the cylinder, rotating at an angular velocity of $\omega$:
+	\[
+		\vb{m} = \frac{1}{2} \iiint j(\vb{r}) \vb{r} \cross \bm{\hat{\phi}} r \dd{r}\dd{\phi}\dd{z}.
+	\]
+	Since $\vb{r}$ and $\bm{\hat\phi}$ are always perpendicular, and the symmetry of the situation causes the radial and azymuthal components to vanish, the magnetic moment becomes
+	\[
+		\vb{m} = \pi\vu{z} \iint j(\vb{r}) \sqrt{r^2+z^2}\cos(\theta) r\dd{r}\dd{z},
+	\]
+	where $\theta$ is the angle between the $\vb{r}$ and $\vu{z}$.
+	This simplifies to
+	\[
+		\vb{m} = \pi\vu{z} \iint j(\vb{r}) rz \dd{r}\dd{z}.
+	\]
+	Plugging in \ref{eq: 10.2 current density} and integrating gives
+	\begin{align*}
+		\vb{m} &= \pi \omega \sigma_1 \vu{z} \int_{0}^{a} a^2z \dd{z}\\
+		&+ \pi \omega \vu{z} \int_{0}^{a} r^2a \sigma_2(r) \dd{r},\\
+		&= \omega \frac{\lambda}{4} \vu{z}\left[ a^4 + a^3 \right].
+	\end{align*}
+
+	\subsection{Non-relativistic Particle in a Magnetic Field}
+	I didn't have time to finish this. :(
+
+\end{multicols*}
+\end{document}
